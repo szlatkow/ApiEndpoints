@@ -50,7 +50,7 @@ jobs:
           fetch-depth: 0
 
       - name: Create and publish ApiEndpoints CodeAnalyzers package to NuGet
-        id: create_and_publish_to_nuget
+        id: create_and_publish_codeanalyzer_nupkg
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: src/Ardalis.ApiEndpoints.CodeAnalyzers/Ardalis.ApiEndpoints.CodeAnalyzers.csproj # Relative to repository root
@@ -61,7 +61,7 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
 
       - name: Create and publish ApiEndpoints package to NuGet
-        id: create_and_publish_to_nuget
+        id: create_and_publish_apiendpoints_nupkg
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: src/Ardalis.ApiEndpoints/Ardalis.ApiEndpoints.csproj # Relative to repository root
