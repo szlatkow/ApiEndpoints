@@ -58,7 +58,7 @@ jobs:
           VERSION_REGEX: <Version>(.*)<\/Version> # Regex pattern to extract version info in a capturing group
           TAG_COMMIT: true # Flag to enable / disable git tagging
           TAG_FORMAT: Analyzer_v* # Format of the git tag, [*] gets replaced with version
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
+          # NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
 
       - name: Create and publish ApiEndpoints package to NuGet
         id: create_and_publish_apiendpoints_nupkg
@@ -69,4 +69,4 @@ jobs:
           VERSION_REGEX: <Version>(.*)<\/Version> # Regex pattern to extract version info in a capturing group
           TAG_COMMIT: true # Flag to enable / disable git tagging
           TAG_FORMAT: v* # Format of the git tag, [*] gets replaced with version
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
+          # NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
