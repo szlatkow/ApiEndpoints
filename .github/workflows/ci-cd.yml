@@ -49,7 +49,18 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Create and publish ApiEndpoints CodeAnalyzers package to NuGet
+      - name: Filter changes
+        id: filter_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            codeanalyzers:
+              - 'src/Ardalis.ApiEndpoints.CodeAnalyzers/**'
+            apiendpoints:
+              - 'src/Ardalis.ApiEndpoints/**'
+
+      - if: steps.filter_changes.outputs.codeanalyzers == 'true'
+        name: Create and publish ApiEndpoints CodeAnalyzers package to NuGet
         id: create_and_publish_codeanalyzer_nupkg
         uses: rohith/publish-nuget@v2
         with:
@@ -58,9 +69,10 @@ jobs:
           VERSION_REGEX: <Version>(.*)<\/Version> # Regex pattern to extract version info in a capturing group
           TAG_COMMIT: true # Flag to enable / disable git tagging
           TAG_FORMAT: Analyzer_v* # Format of the git tag, [*] gets replaced with version
-          # NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
 
-      - name: Create and publish ApiEndpoints package to NuGet
+      - if: steps.filter_changes.outputs.apiendpoints == 'true'
+        name: Create and publish ApiEndpoints package to NuGet
         id: create_and_publish_apiendpoints_nupkg
         uses: rohith/publish-nuget@v2
         with:
@@ -69,8 +81,4 @@ jobs:
           VERSION_REGEX: <Version>(.*)<\/Version> # Regex pattern to extract version info in a capturing group
           TAG_COMMIT: true # Flag to enable / disable git tagging
           TAG_FORMAT: v* # Format of the git tag, [*] gets replaced with version
-          # NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
-
-      - name: Run ls
-        shell: pwsh
-        run: ls
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
